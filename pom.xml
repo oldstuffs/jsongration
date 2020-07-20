@@ -8,7 +8,7 @@
     <artifactId>jsongration</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>jsongration</name>
-    <description>An API for creating unique inventories for Bukkit servers.</description>
+    <description>A Json configuration library.</description>
     <url>https://github.com/portlek/SmartInventory</url>
 
     <licenses>
