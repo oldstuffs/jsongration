@@ -26,6 +26,7 @@
 package io.github.portlek.jsongration;
 
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfigurationOptions;
 
 public final class JsonConfigurationOptions extends FileConfigurationOptions {
 
@@ -41,15 +42,15 @@ public final class JsonConfigurationOptions extends FileConfigurationOptions {
 
     @NotNull
     @Override
-    public JsonConfigurationOptions copyDefaults(final boolean value) {
-        super.copyDefaults(value);
+    public JsonConfigurationOptions pathSeparator(final char value) {
+        super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public JsonConfigurationOptions pathSeparator(final char value) {
-        super.pathSeparator(value);
+    public JsonConfigurationOptions copyDefaults(final boolean value) {
+        super.copyDefaults(value);
         return this;
     }
 
