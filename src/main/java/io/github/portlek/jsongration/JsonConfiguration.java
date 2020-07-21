@@ -29,10 +29,10 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.WriterConfig;
+import java.io.File;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public final class JsonConfiguration extends FileConfiguration {
 
@@ -73,11 +73,6 @@ public final class JsonConfiguration extends FileConfiguration {
         Helper.convertMapToSection(parse.asObject(), this);
     }
 
-    @Override
-    protected String buildHeader() {
-        return "";
-    }
-
     @NotNull
     @Override
     public JsonConfigurationOptions options() {
@@ -86,6 +81,11 @@ public final class JsonConfiguration extends FileConfiguration {
         }
 
         return (JsonConfigurationOptions) this.options;
+    }
+
+    @Override
+    protected String buildHeader() {
+        return "";
     }
 
 }

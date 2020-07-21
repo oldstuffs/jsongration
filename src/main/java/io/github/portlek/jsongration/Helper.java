@@ -29,30 +29,56 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 @UtilityClass
 class Helper {
 
     public void convertMapToSection(@NotNull final JsonObject object,
                                     @NotNull final ConfigurationSection section) {
-        convertMapToSection(Helper.jsonObjectAsMap(object), section);
+        Helper.convertMapToSection(Helper.jsonObjectAsMap(object), section);
+    }
+
+    @NotNull
+    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
+        final JsonObject object = new JsonObject();
+        map.forEach((key, value) ->
+            Helper.objectAsJsonValue(value).ifPresent(jsonValue ->
+                object.add(String.valueOf(key), jsonValue)));
+        return object;
+    }
+
+    @Nullable
+    public Object parseNumber(@NotNull final JsonValue number) {
+        try {
+            return number.asInt();
+        } catch (final NumberFormatException e) {
+            try {
+                return number.asLong();
+            } catch (final NumberFormatException e1) {
+                try {
+                    return number.asDouble();
+                } catch (final NumberFormatException ignored) {
+                }
+            }
+        }
+        return null;
     }
 
     private void convertMapToSection(@NotNull final Map<?, ?> input,
                                      @NotNull final ConfigurationSection section) {
-        final Map<String, Object> result = deserialize(input);
+        final Map<String, Object> result = Helper.deserialize(input);
         for (final Map.Entry<?, ?> entry : result.entrySet()) {
             final String key = entry.getKey().toString();
             final Object value = entry.getValue();
             if (value instanceof Map<?, ?>) {
-                convertMapToSection((Map<?, ?>) value, section.createSection(key));
+                Helper.convertMapToSection((Map<?, ?>) value, section.createSection(key));
             } else {
                 section.set(key, value);
             }
@@ -64,9 +90,9 @@ class Helper {
         final Collection<Object> objects = new ArrayList<>();
         input.forEach(o -> {
             if (o instanceof Map) {
-                objects.add(deserialize((Map<?, ?>) o));
+                objects.add(Helper.deserialize((Map<?, ?>) o));
             } else if (o instanceof List<?>) {
-                objects.add(deserialize((Iterable<?>) o));
+                objects.add(Helper.deserialize((Iterable<?>) o));
             } else {
                 objects.add(o);
             }
@@ -82,25 +108,16 @@ class Helper {
                 entry -> {
                     final Object value = entry.getValue();
                     if (value instanceof Map<?, ?>) {
-                        return deserialize((Map<?, ?>) value);
+                        return Helper.deserialize((Map<?, ?>) value);
                     }
                     if (value instanceof Iterable<?>) {
-                        return deserialize((Iterable<?>) value);
+                        return Helper.deserialize((Iterable<?>) value);
                     }
                     if (value instanceof Stream<?>) {
-                        return deserialize(((Stream<?>) value).collect(Collectors.toList()));
+                        return Helper.deserialize(((Stream<?>) value).collect(Collectors.toList()));
                     }
                     return value;
                 }));
-    }
-
-    @NotNull
-    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
-        final JsonObject object = new JsonObject();
-        map.forEach((key, value) ->
-            Helper.objectAsJsonValue(value).ifPresent(jsonValue ->
-                object.add(String.valueOf(key), jsonValue)));
-        return object;
     }
 
     @NotNull
@@ -118,7 +135,7 @@ class Helper {
         if (value.isBoolean()) {
             object = value.asBoolean();
         } else if (value.isNumber()) {
-            object = parseNumber(value);
+            object = Helper.parseNumber(value);
         } else if (value.isString()) {
             object = value.asString();
         } else if (value.isArray()) {
@@ -143,15 +160,15 @@ class Helper {
     private Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
         @Nullable final JsonValue value;
         if (object instanceof Boolean) {
-            value = Json.value(((boolean) object));
+            value = Json.value((boolean) object);
         } else if (object instanceof Integer) {
-            value = Json.value(((int) object));
+            value = Json.value((int) object);
         } else if (object instanceof Long) {
-            value = Json.value(((long) object));
+            value = Json.value((long) object);
         } else if (object instanceof Float) {
-            value = Json.value(((float) object));
+            value = Json.value((float) object);
         } else if (object instanceof Double) {
-            value = Json.value(object);
+            value = Json.value((double) object);
         } else if (object instanceof String) {
             value = Json.value((String) object);
         } else if (object instanceof Iterable<?>) {
@@ -172,23 +189,6 @@ class Helper {
         collection.forEach(o ->
             Helper.objectAsJsonValue(o).ifPresent(array::add));
         return array;
-    }
-
-    @Nullable
-    public Object parseNumber(@NotNull final JsonValue number) {
-        try {
-            return number.asInt();
-        } catch (final NumberFormatException e) {
-            try {
-                return number.asLong();
-            } catch (final NumberFormatException e1) {
-                try {
-                    return number.asDouble();
-                } catch (final NumberFormatException ignored) {
-                }
-            }
-        }
-        return null;
     }
 
 }
