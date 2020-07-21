@@ -40,13 +40,13 @@ import org.simpleyaml.configuration.ConfigurationSection;
 @UtilityClass
 class Helper {
 
-    public void convertMapToSection(@NotNull final JsonObject object,
-                                    @NotNull final ConfigurationSection section) {
+    void convertMapToSection(@NotNull final JsonObject object,
+                             @NotNull final ConfigurationSection section) {
         Helper.convertMapToSection(Helper.jsonObjectAsMap(object), section);
     }
 
     @NotNull
-    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
+    JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
         map.forEach((key, value) ->
             Helper.objectAsJsonValue(value).ifPresent(jsonValue ->
@@ -55,7 +55,7 @@ class Helper {
     }
 
     @Nullable
-    public Object parseNumber(@NotNull final JsonValue number) {
+    private Object parseNumber(@NotNull final JsonValue number) {
         try {
             return number.asInt();
         } catch (final NumberFormatException e) {

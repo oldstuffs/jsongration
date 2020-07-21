@@ -26,7 +26,6 @@
 package io.github.portlek.jsongration;
 
 import com.eclipsesource.json.Json;
-import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.WriterConfig;
 import java.io.File;
@@ -53,8 +52,8 @@ public final class JsonConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        final JsonObject jsonObject = Helper.mapAsJsonObject(this.getValues(false));
-        final String dump = jsonObject.toString(WriterConfig.PRETTY_PRINT);
+        final String dump = Helper.mapAsJsonObject(this.getValues(false))
+            .toString(WriterConfig.PRETTY_PRINT);
         if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
             return "";
         }
@@ -79,7 +78,6 @@ public final class JsonConfiguration extends FileConfiguration {
         if (this.options == null) {
             this.options = new JsonConfigurationOptions(this);
         }
-
         return (JsonConfigurationOptions) this.options;
     }
 
