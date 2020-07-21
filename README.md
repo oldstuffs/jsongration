@@ -1,5 +1,5 @@
 # Jsongration
-A Json configuration library.
+A Simple Json configuration library.
 
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/SmartInventory)
