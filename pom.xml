@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.github.Carleslc.Simple-YAML</groupId>
             <artifactId>Simple-Configuration</artifactId>
-            <version>1.7</version>
+            <version>1.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.eclipsesource.minimal-json</groupId>
