@@ -20,13 +20,6 @@
         <url>https://github.com/portlek/jsongration</url>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.github.Carleslc.Simple-YAML</groupId>
