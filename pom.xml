@@ -9,7 +9,7 @@
         <version>1.8.4</version>
     </parent>
     <artifactId>jsongration</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.7</version>
     <name>jsongration</name>
     <description>A Json configuration library.</description>
     <url>https://github.com/portlek/jsongration</url>
