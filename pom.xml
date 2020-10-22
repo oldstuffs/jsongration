@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2020 Hasan Demirtaş
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  ~
+  -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>ppom</artifactId>
-        <groupId>io.github.portlek</groupId>
-        <version>1.8.20</version>
-    </parent>
-    <artifactId>jsongration</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>jsongration</name>
-    <description>A Json configuration library.</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>ppom</artifactId>
+    <version>1.8.20</version>
+  </parent>
+  <artifactId>jsongration</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>jsongration</name>
+  <description>A simple Json configuration library.</description>
+  <url>https://github.com/portlek/jsongration</url>
+  <scm>
     <url>https://github.com/portlek/jsongration</url>
-
-    <scm>
-        <connection>scm:git:git://github.com/portlek/jsongration.git</connection>
-        <developerConnection>scm:git:ssh://github.com/portlek/jsongration.git</developerConnection>
-        <url>https://github.com/portlek/jsongration</url>
-    </scm>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.github.Carleslc.Simple-YAML</groupId>
-            <artifactId>Simple-Configuration</artifactId>
-            <version>1.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.eclipsesource.minimal-json</groupId>
-            <artifactId>minimal-json</artifactId>
-            <version>0.9.5</version>
-        </dependency>
-    </dependencies>
-
+    <connection>scm:git:git://github.com/portlek/jsongration.git</connection>
+    <developerConnection>scm:git:ssh://github.com/portlek/jsongration.git</developerConnection>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>com.github.Carleslc.Simple-YAML</groupId>
+      <artifactId>Simple-Configuration</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eclipsesource.minimal-json</groupId>
+      <artifactId>minimal-json</artifactId>
+      <version>0.9.5</version>
+    </dependency>
+  </dependencies>
 </project>
