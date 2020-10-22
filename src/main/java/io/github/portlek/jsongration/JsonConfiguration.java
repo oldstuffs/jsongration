@@ -29,61 +29,86 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonValue;
 import com.eclipsesource.json.WriterConfig;
 import java.io.File;
-import lombok.SneakyThrows;
+import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
 
+/**
+ * a JSON implementation for {@link FileConfiguration}.
+ */
 public final class JsonConfiguration extends FileConfiguration {
 
-    private static final String BLANK_CONFIG = "{}\n";
+  /**
+   * the blank configuration file.
+   */
+  private static final String BLANK_CONFIG = "{}\n";
 
-    @SneakyThrows
-    public static JsonConfiguration loadConfiguration(@NotNull final File file) {
-        return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
+  /**
+   * loads the given file and converts into the json configuration instance.
+   *
+   * @param file the file to load.
+   *
+   * @return the json configuration instance.
+   */
+  @NotNull
+  public static JsonConfiguration loadConfiguration(@NotNull final File file) {
+    return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
+  }
+
+  /**
+   * loads the given file and returns the given json configuration.
+   *
+   * @param config the configuration to load.
+   * @param file the file to load.
+   *
+   * @return the given config instance.
+   */
+  @NotNull
+  private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config,
+                                                     @NotNull final File file) {
+    try {
+      config.load(file);
+    } catch (final IOException | InvalidConfigurationException exception) {
+      throw new IllegalStateException(exception);
     }
+    return config;
+  }
 
-    @SneakyThrows
-    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config,
-                                                       @NotNull final File file) {
-        config.load(file);
-        return config;
+  @NotNull
+  @Override
+  public String saveToString() {
+    final String dump = Helper.mapAsJsonObject(this.getValues(false))
+      .toString(WriterConfig.PRETTY_PRINT);
+    if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
+      return "";
     }
+    return dump;
+  }
 
-    @NotNull
-    @Override
-    public String saveToString() {
-        final String dump = Helper.mapAsJsonObject(this.getValues(false))
-            .toString(WriterConfig.PRETTY_PRINT);
-        if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
-            return "";
-        }
-        return dump;
+  @Override
+  public void loadFromString(@NotNull final String contents) {
+    if (contents.isEmpty()) {
+      return;
     }
-
-    @Override
-    public void loadFromString(@NotNull final String contents) {
-        if (contents.isEmpty()) {
-            return;
-        }
-        final JsonValue parse = Json.parse(contents);
-        if (!parse.isObject()) {
-            return;
-        }
-        Helper.convertMapToSection(parse.asObject(), this);
+    final JsonValue parse = Json.parse(contents);
+    if (!parse.isObject()) {
+      return;
     }
+    Helper.convertMapToSection(parse.asObject(), this);
+  }
 
-    @NotNull
-    @Override
-    public JsonConfigurationOptions options() {
-        if (this.options == null) {
-            this.options = new JsonConfigurationOptions(this);
-        }
-        return (JsonConfigurationOptions) this.options;
+  @NotNull
+  @Override
+  public JsonConfigurationOptions options() {
+    if (this.options == null) {
+      this.options = new JsonConfigurationOptions(this);
     }
+    return (JsonConfigurationOptions) this.options;
+  }
 
-    @Override
-    protected String buildHeader() {
-        return "";
-    }
-
+  @Override
+  protected String buildHeader() {
+    return "";
+  }
 }
